@@ -1,0 +1,58 @@
+# テレポート設定
+opalltp:
+  x:
+  y:
+  z:
+  yaw:
+  pitch:
+
+optp:
+  x:
+  y:
+  z:
+  yaw:
+  pitch:
+
+huntertp:
+  x:
+  y:
+  z:
+  yaw:
+  pitch:
+
+jalltp:
+  x:
+  y:
+  z:
+  yaw:
+  pitch:
+
+restp:
+  x:
+  y:
+  z:
+  yaw:
+  pitch:
+
+# 本設定
+BookHome: ここにミッション等が通知されます。
+Mission1Title: ミッションタイトル1
+Mission1: ミッションページ1
+Mission2Title: なし
+Mission2: なし
+Mission3Title: なし
+Mission3: なし
+Mission4Title: なし
+Mission4: なし
+Mission5Title: なし
+Mission5: なし
+Mission6Title: なし
+Mission6: なし
+Mission7Title: なし
+Mission7: なし
+Mission8Title: なし
+Mission8: なし
+Mission9Title: なし
+Mission9: なし
+Mission10Title: なし
+Mission10: なし

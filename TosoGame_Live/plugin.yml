@@ -1,0 +1,138 @@
+name: TosoGame_Live
+version: 1.12.9
+main: tosogame_live.TosoGame_Live
+
+commands:
+  pl_reload:
+    description: プラグインを再読み込みします。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  open:
+    description: サーバーを開放します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  close:
+    description: サーバーを閉鎖します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  leave:
+    description: 運営に参加します。
+    usage: /<command> [Player]
+    permission: tosogame.leave
+    permission-message: 権限がありません。
+
+  join:
+    description: 運営から離脱します。
+    usage: /<command> [Player]
+    permission: tosogame.join
+    permission-message: 権限がありません。
+
+  broadcaster:
+    description: 配信者を追加/削除します。
+    usage: /<command> <add|remove> [Player]
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  mission:
+    description: ミッションを開始します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  hint:
+    description: ヒントを通知します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  start:
+    descripton: ゲームを開始します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  disappear:
+    descripton: 姿を非表示にします。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  appear:
+    descripton: 姿を表示します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  hide:
+    descripton: 周りのプレイヤーを非表示にします。
+    usage: /<command>
+    permission: tosogame.players
+    permission-message: 権限がありません。
+
+  show:
+    descripton: 周りのプレイヤーを表示します。
+    usage: /<command>
+    permission: tosogame.players
+    permission-message: 権限がありません。
+
+  opalltp:
+    descripton: オープニングゲームの場所を設定します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  optp:
+    descripton: オープニングゲームで選ばれた人の場所を設定します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  huntertp:
+    descripton: ハンターの場所を設定します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  jalltp:
+    descripton: 牢獄の場所を設定します。
+    usage: /<command>
+    permission: tosogame.players
+    permission-message: 権限がありません。
+
+  restp:
+    descripton: 復活の場所を設定します。
+    usage: /<command>
+    permission: tosogame.players
+    permission-message: 権限がありません。
+
+  opgame:
+    descripton: オープニングゲームを開始します。
+    usage: /<command>
+    permission: tosogame.players
+    permission-message: 権限がありません。
+
+permissions:
+    tosogame.*:
+        description: Gives access to all doorman commands
+        children:
+            tosogame.leave: true
+            tosogame.join: true
+            tosogame.admins: true
+            tosogame.players: true
+    tosogame.leave:
+        description: Allows you to kick a user
+        default: false
+    tosogame.join:
+        description: Allows you to ban a user
+        default: false
+    tosogame.admins:
+        description: Knocks on the door!
+        default: false
+    tosogame.players:
+        default: true
