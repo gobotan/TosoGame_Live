@@ -34,6 +34,13 @@ restp:
   yaw:
   pitch:
 
+spectp:
+  x:
+  y:
+  z:
+  yaw:
+  pitch:
+
 # 本設定
 BookHome: ここにミッション等が通知されます。
 Mission1Title: ミッションタイトル1

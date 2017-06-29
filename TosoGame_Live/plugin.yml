@@ -3,6 +3,12 @@ version: 1.12.9
 main: tosogame_live.TosoGame_Live
 
 commands:
+  help:
+    description: TosoGame_Liveのヘルプを表示します。
+    usage: /<command>
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
   pl_reload:
     description: プラグインを再読み込みします。
     usage: /<command>
@@ -81,6 +87,12 @@ commands:
     permission: tosogame.players
     permission-message: 権限がありません。
 
+  spec:
+    descripton: 観覧状態になります。・観覧状態を解除します。
+    usage: /<command>
+    permission: tosogame.players
+    permission-message: 権限がありません。
+
   opalltp:
     descripton: オープニングゲームの場所を設定します。
     usage: /<command>
@@ -102,19 +114,31 @@ commands:
   jalltp:
     descripton: 牢獄の場所を設定します。
     usage: /<command>
-    permission: tosogame.players
+    permission: tosogame.admins
     permission-message: 権限がありません。
 
   restp:
     descripton: 復活の場所を設定します。
     usage: /<command>
-    permission: tosogame.players
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  spectp:
+    descripton: 観覧状態の場所を設定します。
+    usage: /<command>
+    permission: tosogame.admins
     permission-message: 権限がありません。
 
   opgame:
     descripton: オープニングゲームを開始します。
     usage: /<command>
-    permission: tosogame.players
+    permission: tosogame.admins
+    permission-message: 権限がありません。
+
+  res:
+    descripton: test
+    usage: /<command>
+    permission: tosogame.admins
     permission-message: 権限がありません。
 
 permissions:

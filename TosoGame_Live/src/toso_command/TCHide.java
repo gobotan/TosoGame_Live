@@ -18,15 +18,19 @@ public class TCHide implements CommandExecutor {
 	switch(args.length){
 		case 0:
 			for(Player allplayer : Bukkit.getOnlinePlayers()) {
-				Player player = (Player)sender;
-				player.hidePlayer(allplayer);
+				if (allplayer.isOp() == false) {
+					Player player = (Player)sender;
+					player.hidePlayer(allplayer);
+				}
 			}
 			sender.sendMessage(pex + ChatColor.GREEN + "周りを非表示にしました。");
 			break;
 		case 1:
 			for(Player allplayer : Bukkit.getOnlinePlayers()) {
-				Player player = Bukkit.getPlayerExact(args[0]);
-				player.hidePlayer(allplayer);
+				if (!(allplayer.isOp())) {
+					Player player = Bukkit.getPlayerExact(args[0]);
+					player.hidePlayer(allplayer);
+				}
 			}
 			Player player = Bukkit.getPlayerExact(args[0]);
 			sender.sendMessage(pex + ChatColor.GREEN + player.getName() + "の周りを非表示にしました。");

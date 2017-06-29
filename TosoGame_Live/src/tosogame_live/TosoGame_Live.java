@@ -2,6 +2,7 @@ package tosogame_live;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -22,13 +23,13 @@ import toso_command.TCAppear;
 import toso_command.TCBroadCaster;
 import toso_command.TCClose;
 import toso_command.TCDisappear;
+import toso_command.TCHelp;
 import toso_command.TCHide;
 import toso_command.TCJoin;
 import toso_command.TCLeave;
 import toso_command.TCOpen;
 import toso_command.TCShow;
 
-@SuppressWarnings("deprecation")
 public class TosoGame_Live extends JavaPlugin implements Listener {
 
     ScoreboardManager manager = Bukkit.getScoreboardManager();
@@ -51,7 +52,6 @@ public class TosoGame_Live extends JavaPlugin implements Listener {
     public static Team tosojall;
     /** ハンターチーム */
     public static Team tosohunter;
-
 
     public static String pex = "§7[§4逃走中§7]";
 
@@ -144,15 +144,6 @@ public class TosoGame_Live extends JavaPlugin implements Listener {
 		player.sendMessage(pex + ChatColor.GOLD + "以上のルールを守って、" + ChatColor.GREEN + ChatColor.BOLD + ChatColor.UNDERLINE + "楽しく" + ChatColor.RESET + ChatColor.GOLD + "参加してください！");
 		player.sendMessage(pex + "あなたを逃走者に追加しました。");
 
-		if (player.isOp()){
-			tosoadmins.addPlayer(player);
-			player.sendMessage(pex + ChatColor.GOLD + "あなたはOP権限があるため、自動的にAdminグループに参加しました。");
-		} else {
-			tosoplayer.addPlayer(player);
-			player.sendMessage(pex + ChatColor.GOLD + "あなたはOP権限がないため、自動的にPlayerグループに参加しました。");
-		}
-
-
 	}
 
 	public static ItemStack giveBook(Player player) {
@@ -186,6 +177,8 @@ public class TosoGame_Live extends JavaPlugin implements Listener {
 
 			return true;
  		}
+
+ 		getCommand("help").setExecutor(new TCHelp());
 
  		getCommand("open").setExecutor(new TCOpen());
 
@@ -385,26 +378,23 @@ public class TosoGame_Live extends JavaPlugin implements Listener {
 	    	    	        return true;
 	    			}
 
-    			Player player = (Player)sender;
-    			player.sendMessage(pex + ChatColor.RED + "引数が不正です。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 1: " + this.getConfig().getString("Mission1Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 2: " + this.getConfig().getString("Mission2Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 3: " + this.getConfig().getString("Mission3Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 4: " + this.getConfig().getString("Mission4Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 5: " + this.getConfig().getString("Mission5Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 6: " + this.getConfig().getString("Mission6Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 7: " + this.getConfig().getString("Mission7Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 8: " + this.getConfig().getString("Mission8Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 9: " + this.getConfig().getString("Mission9Title") + "を開始します。");
-    			player.sendMessage(pex + ChatColor.RED + "/mission 10: " + this.getConfig().getString("Mission10Title") + "を開始します。");
-
-    			return true;
-
 			}
 
+	    if(cmd.getName().equalsIgnoreCase("hint")){
+            for(Player bookplayer : Bukkit.getOnlinePlayers()) {
+    	        ItemStack Book = getBook(bookplayer, true);
+    	        BookMeta bookMeta = (BookMeta) Book.getItemMeta();
+    	        bookMeta.addPage(ChatColor.GOLD + args[0] + "のヒント" + ChatColor.RESET + "\n" + "\n" + args[1]);
+    	        Book.setItemMeta(bookMeta);
+	    	    bookplayer.getWorld().playSound(bookplayer.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 2, 1);
+            }
+            	sender.sendMessage(pex + args[0] + "のヒント" + "を通知しました。");
+    	        Bukkit.broadcastMessage(pex + "ミッションが通知されました。");
+    	        return true;
+
+	    }
+
 	    if(cmd.getName().equalsIgnoreCase("start")){
-			if(!(sender instanceof Player))return false;//コマンドを実行した人がプレイヤー以外なら無視
-			Player p = (Player) Bukkit.getOnlinePlayers();
 			Bukkit.getScheduler ().runTaskLater (this, () -> timer(), 0);
 
 			return true;
@@ -485,8 +475,22 @@ public class TosoGame_Live extends JavaPlugin implements Listener {
 				return true;
 	    }
 
+	    if(cmd.getName().equalsIgnoreCase("spectp")) {
+	    	Player player = (Player)sender;
+
+				Location l = player.getLocation();
+				this.getConfig().set("spectp.x", l.getX());
+				this.getConfig().set("spectp.y", l.getY());
+				this.getConfig().set("spectp.z", l.getZ());
+				this.getConfig().set("spectp.yaw", l.getYaw());
+				this.getConfig().set("spectp.pitch", l.getPitch());
+
+				this.saveConfig();
+				sender.sendMessage(pex + ChatColor.GOLD + "観覧状態の場所を設定しました。");
+				return true;
+	    }
+
 	    if(cmd.getName().equalsIgnoreCase("opgame")) {
-	    	Player p = (Player) Bukkit.getOnlinePlayers();
 	    	Player player = (Player) Bukkit.getOnlinePlayers();
 		    		int x = getConfig().getInt("opalltp.x");
 		    		int y = getConfig().getInt("opalltp.y");
@@ -500,17 +504,60 @@ public class TosoGame_Live extends JavaPlugin implements Listener {
 			return true;
 	    }
 
-	    if(cmd.getName().equalsIgnoreCase("hint")){
-            for(Player bookplayer : Bukkit.getOnlinePlayers()) {
-    	        ItemStack Book = getBook(bookplayer, true);
-    	        BookMeta bookMeta = (BookMeta) Book.getItemMeta();
-    	        bookMeta.addPage(ChatColor.GOLD + args[0] + "のヒント" + ChatColor.RESET + "\n" + "\n" + args[1]);
-    	        Book.setItemMeta(bookMeta);
-	    	    bookplayer.getWorld().playSound(bookplayer.getLocation(), Sound.ENTITY_FIREWORK_TWINKLE, 2, 1);
-            }
-            	sender.sendMessage(pex + args[0] + "のヒント" + "を通知しました。");
-    	        Bukkit.broadcastMessage(pex + "ミッションが通知されました。");
+	    if(cmd.getName().equalsIgnoreCase("spec")) {
+	    	Player p = (Player)sender;
+	    	if(p.getGameMode() == GameMode.ADVENTURE){
+	    		int x = getConfig().getInt("spectp.x");
+	    		int y = getConfig().getInt("spectp.y");
+	    		int z = getConfig().getInt("spectp.z");
+				int yaw = getConfig().getInt("spectp.yaw");
+				int pitch = getConfig().getInt("spectp.pitch");
 
+	    		p.teleport(new Location(p.getWorld(), x, y, z, yaw, pitch));
+
+	    		p.setGameMode(GameMode.SPECTATOR);
+
+	    		sender.sendMessage(pex + "観覧状態になりました。");
+
+	    		return true;
+	    	}
+
+	    	if(p.getGameMode() == GameMode.SPECTATOR){
+	    		int x = getConfig().getInt("jalltp.x");
+	    		int y = getConfig().getInt("jalltp.y");
+	    		int z = getConfig().getInt("jalltp.z");
+				int yaw = getConfig().getInt("jalltp.yaw");
+				int pitch = getConfig().getInt("jalltp.pitch");
+
+	    		p.teleport(new Location(p.getWorld(), x, y, z, yaw, pitch));
+
+	    		p.setGameMode(GameMode.ADVENTURE);
+
+	    		sender.sendMessage(pex + "観覧状態から戻りました。");
+
+	    		return true;
+	    	}
+
+	    	if(p.getGameMode() == GameMode.CREATIVE){
+	    		sender.sendMessage(pex + ChatColor.RED + "クリエイティブのため観覧状態にできません。");
+
+	    		return true;
+	    	}
+
+	    }
+
+	    if (cmd.getName().equalsIgnoreCase("res")) {
+	    	Player p = (Player)sender;
+
+    		int x = getConfig().getInt("restp.x");
+    		int y = getConfig().getInt("restp.y");
+    		int z = getConfig().getInt("restp.z");
+			int yaw = getConfig().getInt("restp.yaw");
+			int pitch = getConfig().getInt("restp.pitch");
+
+			p.teleport(new Location(p.getWorld(), x, y, z, yaw, pitch));
+
+			sender.sendMessage(pex + "test");
 	    }
 
 		return false;
